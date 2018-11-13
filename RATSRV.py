@@ -10,17 +10,20 @@ print"[*] Listening on %s:%d" % (bind_ip, bind_port)
 
 
 def sendmsg(client_socket):
-    while True:
+    command=""
+    while command != "exit":
         try:
             command = raw_input()
             if (command == "disconnect"):
                 client_socket.close()
                 server.close()
                 exit()
-            client_socket.send(command)
+            elif ("switch" in command):
+              client_socket = command.partition(" "[2])
+            else:
+              client_socket.send(command)
         except Exception as e:
             print "Connection lost %s" % (addr[0],)
-            break
 
 
 def listen(client_socket):
